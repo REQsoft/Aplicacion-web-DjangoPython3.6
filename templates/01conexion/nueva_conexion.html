@@ -1,0 +1,40 @@
+{% extends '00inicio/base.html' %}
+
+{% load static %}
+
+{% block page_name %}
+<h1> AGERGAR CONEXION</h1>
+{% endblock %}
+
+{% block page_description %}Crea una nueva conexión a una base de datos{% endblock %}
+
+{% block page_actions %}
+    <a type="button" class="btn btn-info">
+        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Mas informacion
+    </a>
+{% endblock %}
+
+{% block content %}
+<div class="col-sm-6 ">
+    <form method="post">
+        {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <div id="selector_bd"></div>           
+            <div class="row">             
+                <div class="col-sm-6 ">
+                    <input type="text" id="url" value="{% url 'listar-bd' %}" hidden/>
+                    <a type="button" class="btn btn-primary" id="listar_bd">
+                        <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Listar bases de datos
+                    </a>
+                </div>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success btn-lg">
+                <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Guardar
+            </button>
+    </form>
+</div>
+  <script src="{% static "js/jquery-3.1.1.js" %}"></script>
+  <script src="{% static "js/codigo.js" %}"></script>
+{% endblock %}

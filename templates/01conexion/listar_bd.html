@@ -1,0 +1,5 @@
+<SELECT onChange="this.form.bd.value = this.value">
+{% for obj in object_list %}
+<OPTION value='{{ obj }}'>{{ obj }}</OPTION>
+{% endfor %}
+</SELECT> 

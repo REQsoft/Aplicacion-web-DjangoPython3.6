@@ -1,0 +1,27 @@
+<div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="btn btn-primary close" data-dismiss="modal" aria-hidden="true">
+                    <span class="glyphicon glyphicon-close" aria-hidden="true"></span> Cancelar
+            </button>
+            <h3>Esta seguro de eliminar conexion</h3>
+        </div>
+        <form method="post" action="{% url 'eliminar-conexion' object.id %}">
+            {% csrf_token %}
+            <div class="modal-body">
+                <label>Nombre de la conexion:</label>{{ object.nombre }}<br>
+                <label>Motor de base de datos:</label>{{ object.motor }}<br>
+                <label>Usuario:</label>{{ object.usuario }}<br>  
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-delete" aria-hidden="true"></span> Eliminar
+                </button>
+            </div>
+        </form>
+      </div>
+   </div>
+</div>
+
+    

@@ -1,0 +1,27 @@
+{% extends '00inicio/base.html' %}
+
+{% block page_name %}
+<h1> AGERGAR SERVICIO</h1>
+{% endblock %}
+
+{% block page_description %}Agrega un nuevo servicio{% endblock %}
+
+{% block page_actions %}
+    <a type="button" class="btn btn-info">
+        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Mas informacion
+    </a>
+{% endblock %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    <h3><span class="label label-info">Conexion</span></h3>{{ form.conexion }}<br>
+    <h3><span class="label label-info">Rol del servicio</span></h3>{{ form.rol }}<br>
+    <h3><span class="label label-info">Nombre del servicio</span></h3>{{ form.nombre }}<br>
+    <h3><span class="label label-info">Consulta SQL</span></h3>{{ form.sql }}<br>
+    <h3><span class="label label-info">Descripcion</span></h3>{{ form.descripcion }}<br>
+    <button type="submit" class="btn btn-success btn-lg">
+        <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Guardar
+    </button>
+</form>
+{% endblock %}

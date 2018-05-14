@@ -1,0 +1,12 @@
+{% extends '00inicio/base.html' %}
+
+{% block content %}
+<form enctype="multipart/form-data" method="post">{% csrf_token %}
+    <h3><span class="label label-info">Dependencia</span></h3>{{ form.dependencia }}<br>
+    <h3><span class="label label-info">Extensión</span></h3>{{ form.extension }}<br>
+    <h3><span class="label label-info">Línea Directa</span></h3>{{ form.linea_directa }}<br>
+    <button type="submit" class="btn btn-success btn-lg">
+        <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Guardar
+    </button>
+</form>
+{% endblock %}
