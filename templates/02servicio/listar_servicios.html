@@ -1,5 +1,7 @@
 {% extends '00inicio/base.html' %}
 
+{% load static %}
+
 {% block content %}
 <table class="table">
     <thead>
@@ -14,16 +16,55 @@
         {% for servicio in object_list %}
         
         <tr>
-            <td>{{servicio.id}}</td>
-            <td>{{servicio.nombre}}</td>
-            <td><a href="{% url 'editar-servicio' servicio.id %}"><button class="btn btn-primary">Editar</button></a>
-            <td><a href="{% url 'serializers-servicios' servicio.id %}"><button class="btn btn-success">Ejecutar Api</button></a>
+            <td>
+                {{servicio.id}}
+            </td>
+            <td>
+                {{servicio.nombre}}
+            </td>
+            <td>
+                <a href="{% url 'editar-servicio' servicio.id %}"><button class="btn btn-primary">Editar</button></a>
+                <button type="button" class="btn btn-danger" onclick="validar_eliminacion_servicio('{% url 'eliminar-servicio' servicio.id %}', '{{ servicio.nombre }}', '{{ servicio.rol }}', '{{ servicio.descripcion }}')">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Eliminar
+                </button> 
+            </td>
+            <td>
+                <a href="{% url 'serializers-servicios' servicio.id %}"><button class="btn btn-success">Ejecutar Api</button></a>
             </td>
         </tr>
         {% endfor %}
         {% else %}
-        <h1>No existen servicios</h1> 
+        <h1>No existen servicios</h1>  
         {% endif %}
     </tbody>
 </table>
+<div id="modal_eliminiar">
+    <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn btn-primary close" data-dismiss="modal" aria-hidden="true">
+                        <span class="glyphicon glyphicon-close" aria-hidden="true"></span> Cancelar
+                    </button>
+                    <h3>Esta seguro de eliminar servicio</h3>
+                </div>
+                <form method="post" action="" id="form_confirmacion">
+                    {% csrf_token %}
+                    <div class="modal-body">                          
+                        <label>Nombre del servicio:</label><span id="spn_nombre"></span><br>
+                        <label>Rol:</label><span id="spn_rol"></span><br>
+                        <label>Descripción:</label><span id="spn_descripcion"></span><br>  
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-delete" aria-hidden="true"></span> Eliminar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static "js/jquery-3.1.1.js" %}"></script>
+<script src="{% static "js/codigo.js" %}"></script>
 {% endblock %}

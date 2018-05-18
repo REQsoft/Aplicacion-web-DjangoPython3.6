@@ -2,13 +2,13 @@ from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from adminapp.forms import ConexionForm, ServicioForm, DirectorioForm, LocalizacionForm
 from adminapp.models import Conexion, Sql
 from adminapp.clases import conectar
-from django.views.generic.edit import CreateView, UpdateView
-from django.views.generic import ListView, DetailView
+from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView
 from adminapp.serializers import ServicioSerializer
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView 
 import json
 from rest_framework.response import Response 
+from django.urls import reverse_lazy
 
 
 class SQLCreateView(CreateView):
@@ -29,6 +29,10 @@ class SQLUpdateView(UpdateView):
     fields = '__all__'
     template_name = "02servicio/nuevo_servicio.html"
 
+class ServicioDeleteView(DeleteView):
+    model = Sql
+    success_url = reverse_lazy('listar-servicios')
+
 
 # Crea la vista que permite visualizar el serializar de los servicios.
 class ServiciosList(ListAPIView):
@@ -42,7 +46,7 @@ class ServicioList(APIView):
     def post(self):
         pass
 
-    def get(self, request, id_servicio):
+    def get(self, request, id_servicio): 
         obj = conectar.Conectar()
         servicio = Sql.objects.get(id=id_servicio)
         conexion = Conexion.objects.get(nombre=servicio.conexion)

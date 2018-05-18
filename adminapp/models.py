@@ -114,16 +114,19 @@ class Localizacion(models.Model):
         return self.descripcion
     
     def get_absolute_url(self):
-        return reverse('listar-directorios')
+        return reverse('listar-localizaciones')
 
 # Atributos de artículos extravíados
 class Articulo(models.Model):
     descripcion = models.CharField(max_length=200)
     fecha = models.DateField()
-    foto = models.ImageField(upload_to='fotos_articulo')
+    foto = models.ImageField(upload_to='fotos_articulo/')
 
     def __str__(self):
         return self.descripcion
+    
+    def get_absolute_url(self):
+        return reverse('listar-articulos')
 
 
 @receiver(post_delete, sender=Articulo)
@@ -164,3 +167,6 @@ class Parametrizacion(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+    def get_absolute_url(self):
+        return reverse('listar-parametrizaciones')

@@ -3,6 +3,7 @@ from django.views.generic import CreateView, DeleteView, UpdateView, ListView, D
 from .. models import Directorio
 from rest_framework.generics import ListAPIView 
 from .. serializers import DirectorioSerializer
+from django.urls import reverse_lazy
 
 # Crea la vista formulario nuevo directorio.
 
@@ -21,7 +22,7 @@ class DirecotorioListView(ListView):
 
 
 class DirectorioUpdateView(UpdateView):
-    model = Directorio
+    model = Directorio 
     fields= '__all__'
     template_name = "03directorio/nuevo_directorio.html"
 
@@ -32,3 +33,8 @@ class DirectorioUpdateView(UpdateView):
 class DirectorioList(ListAPIView):
     queryset = Directorio.objects.all()
     serializer_class = DirectorioSerializer
+
+
+class DirectorioDeleteView(DeleteView):
+    model = Directorio
+    success_url = reverse_lazy('listar-directorios')

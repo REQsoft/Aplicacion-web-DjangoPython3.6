@@ -1,5 +1,7 @@
 {% extends '00inicio/base.html' %}
 
+{% load static %}
+
 {% block content %}
 <table class="table">
     <thead>
@@ -16,13 +18,25 @@
         {% for directorio in object_list %}
         
         <tr>
-            <td>{{directorio.id}}</td>
-            <td>{{directorio.dependencia}}</td>
-            <td>{{directorio.extension}}</td>
-            <td>{{directorio.linea_directa}}</td>
-            <td><a href="{% url 'editar-directorio' directorio.id %}"><button class="btn btn-primary">Editar</button></a>
+            <td>
+                {{directorio.id}}
             </td>
-            <td><a href="{% url 'eliminar-directorio' directorio.id %}"><button class="btn btn-danger">Eliminar</button></a>
+            <td>
+                {{directorio.dependencia}}
+            </td>
+            <td>
+                {{directorio.extension}}
+            </td>
+            <td>
+                {{directorio.linea_directa}}
+            </td>
+            <td>
+                <a href="{% url 'editar-directorio' directorio.id %}"><button class="btn btn-primary">Editar</button></a>
+            </td>
+            <td>
+                <button type="button" class="btn btn-danger" onclick="validar_eliminacion_directorio('{% url 'eliminar-directorio' directorio.id %}', '{{ directorio.dependencia }}', '{{ directorio.extension }}', '{{ directorio.linea_directa }}')">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Eliminar
+                </button>
             </td>
         </tr>
         {% endfor %}
@@ -31,4 +45,33 @@
         {% endif %}
     </tbody>
 </table>
+<div id="modal_eliminiar">
+    <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn btn-primary close" data-dismiss="modal" aria-hidden="true">
+                        <span class="glyphicon glyphicon-close" aria-hidden="true"></span> Cancelar
+                    </button>
+                    <h3>Esta seguro eliminar del directorio</h3>
+                </div>
+                <form method="post" action="" id="form_confirmacion">
+                    {% csrf_token %}
+                    <div class="modal-body">                          
+                        <label>Dependencia:</label><span id="spn_dependencia"></span><br>
+                        <label>Extension:</label><span id="spn_extension"></span><br>
+                        <label>Linea directa:</label><span id="spn_linea_directa"></span><br>  
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-delete" aria-hidden="true"></span> Eliminar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static "js/jquery-3.1.1.js" %}"></script>
+<script src="{% static "js/codigo.js" %}"></script>
 {% endblock %}

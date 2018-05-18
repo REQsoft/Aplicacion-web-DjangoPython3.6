@@ -1,0 +1,67 @@
+{% extends '00inicio/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<table class="table">
+    <thead>
+        <tr>
+            <td>#</td>
+            <td>Descripcion</td>
+            <td>Fecha</td>
+            <td>Imagen</td>
+            <td>Acciones</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% if object_list %}
+        {% for articulo in object_list %}
+        
+        <tr>
+            <td>{{articulo.id}}</td>
+            <td>{{articulo.descripcion}}</td>
+            <td>{{articulo.fecha}}</td>
+            <td>{{articulo.foto}}</td>
+            <td><a href="{% url 'editar-articulo' articulo.id %}"><button class="btn btn-primary">Editar</button></a>
+            </td>
+            <td>
+            <button type="button" class="btn btn-danger" onclick="validar_eliminacion_articulo('{% url 'eliminar-articulo' articulo.id %}', '{{ articulo.descripcion }}', '{{ articulo.fecha }}')">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Eliminar
+            </button>
+            </td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <h1>No existen articulos</h1>
+        {% endif %}
+    </tbody>
+</table>
+<div id="modal_eliminiar">
+    <div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn btn-primary close" data-dismiss="modal" aria-hidden="true">
+                        <span class="glyphicon glyphicon-close" aria-hidden="true"></span> Cancelar
+                    </button>
+                    <h3>Esta seguro eliminar del directorio</h3>
+                </div>
+                <form method="post" action="" id="form_confirmacion">
+                    {% csrf_token %}
+                    <div class="modal-body">                          
+                        <label>Descripcion:</label><span id="spn_descripcion"></span><br>
+                        <label>Fecha:</label><span id="spn_fecha"></span><br> 
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-delete" aria-hidden="true"></span> Eliminar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static "js/jquery-3.1.1.js" %}"></script>
+<script src="{% static "js/codigo.js" %}"></script>
+{% endblock %}
