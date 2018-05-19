@@ -21,7 +21,7 @@ class Conexion(models.Model):
     nombre_bd = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.nombre
+        return self.nombre 
     
     def get_absolute_url(self):
         return reverse('listar-conexiones')
@@ -67,6 +67,7 @@ class Sql(models.Model):
         )
         ),
     )
+    id_servicio = models.CharField(max_length=2, primary_key=True) 
     conexion = models.ForeignKey(Conexion, on_delete=models.PROTECT)
     rol = models.CharField(max_length=50, choices=Rol)
     nombre = models.CharField(max_length=50)

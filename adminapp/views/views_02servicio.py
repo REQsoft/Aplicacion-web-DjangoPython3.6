@@ -45,25 +45,23 @@ class ServicioList(APIView):
     def post(self):
         pass
 
-    def get(self, request, id_servicio): 
-        obj = conectar.Conectar()
+    def get(self, request, id_servicio):
         servicio = Sql.objects.get(id=id_servicio)
-        conexion = Conexion.objects.get(nombre=servicio.conexion)
         if(id_servicio == 1):
-            return ofertaAcademica(self, obj, servicio, conexion)
+            return ofertaAcademica(self, servicio)
         if(id_servicio == 2):
-            return listaEstudiantes(self, obj, servicio, conexion)
+            return listaEstudiantes(self, servicio)
         if(id_servicio == 3):
-            return hojaVida(self, obj, servicio, conexion)
+            return hojaVida(self, servicio)
         if(id_servicio == 4):
-            return consultaNotas(self, obj, servicio, conexion)
+            return consultaNotas(self, servicio)
         if(id_servicio == 5):
-            return consultaMaterias(self, obj, servicio, conexion)
+            return consultaMaterias(self, servicio)
         return Response("Error en el servicio")
 
 
 # Crea la vista de estudiantes.
-def listaEstudiantes(self, obj, servicio, conexion):
+def listaEstudiantes(self, servicio):
 
     list = obj.ejecutarServicios(conexion.usuario, conexion.contrasena, conexion.ip, str(
         conexion.puerto), conexion.bd, servicio.sql, conexion.motor)
@@ -102,10 +100,10 @@ def get_dic_from_two_lists(keys, values):
 # Crea la vista de oferta academica.
 
 
-def ofertaAcademica(self, obj, servicio, conexion):
-
-    list = obj.ejecutarServicios(conexion.usuario, conexion.contrasena, conexion.ip, str(
-        conexion.puerto), conexion.bd, servicio.sql, conexion.motor)
+def ofertaAcademica(self, servicio):
+    conexion = Conexion.objects.get(nombre=servicio.conexion)
+    obj = conectar.Conectar(conexion.usuario, conexion.contrasena, conexion.puerto, conexion.ip_servidor)
+    list = obj.ejecutarServicios(servicio.sql, servicio.db, conexion.motor)
 
     list1 = []
     list2 = []

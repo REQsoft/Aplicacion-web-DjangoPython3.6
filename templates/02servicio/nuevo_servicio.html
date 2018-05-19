@@ -15,6 +15,7 @@
 {% block content %}
 <form method="post">
     {% csrf_token %}
+    <h3><span class="label label-info">Id servicio</span></h3>{{ form.id_servicio }}<br>
     <h3><span class="label label-info">Conexion</span></h3>{{ form.conexion }}<br>
     <h3><span class="label label-info">Rol del servicio</span></h3>{{ form.rol }}<br>
     <h3><span class="label label-info">Nombre del servicio</span></h3>{{ form.nombre }}<br>

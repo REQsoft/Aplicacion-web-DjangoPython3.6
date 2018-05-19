@@ -92,21 +92,15 @@ class Conectar:
           
         
     #Ejecutar servicios
-    def ejecutarServicios(self):
+    def ejecutarServicios(self, sql, db, motor):
         estudiantes=[]
         try:      
-            self.db_host = host
-            self.db_user = usuario 
-            self.db_pass = pss 
-            self.db_port = port 
-            self.db_db = db
-            self.db_sql = sql
-    
-    
+            db_db = db
+            db_sql = sql   
             if(motor=="postgres"):
                 conn = psycopg2.connect(database=self.db_db,user=self.db_user,password=self.db_pass,host=self.db_host,port=self.db_port)
             elif(motor=="mysql"):
-                conn = pymysql.connect(host=self.db_host,user=self.db_user,passwd=self.db_pass,port=int(self.db_port),db=self.db_db)
+                conn = pymysql.connect(host=self.ip_servidor,user=self.usuario,passwd=self.contrasena,port=self.puerto,db=self.db_db)
             elif(motor=="oracle"):                     
                 s=str(self.db_user+"/"+self.db_pass+"@"+self.db_host)
                 conn=cx_Oracle.connect(s)

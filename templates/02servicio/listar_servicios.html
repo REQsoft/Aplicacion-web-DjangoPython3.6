@@ -17,19 +17,19 @@
         
         <tr>
             <td>
-                {{servicio.id}}
+                {{servicio.id_servicio}}
             </td>
             <td>
                 {{servicio.nombre}}
             </td>
             <td>
-                <a href="{% url 'editar-servicio' servicio.id %}"><button class="btn btn-primary">Editar</button></a>
-                <button type="button" class="btn btn-danger" onclick="validar_eliminacion_servicio('{% url 'eliminar-servicio' servicio.id %}', '{{ servicio.nombre }}', '{{ servicio.rol }}', '{{ servicio.descripcion }}')">
+                <a href="{% url 'editar-servicio' servicio.id_servicio %}"><button class="btn btn-primary">Editar</button></a>
+                <button type="button" class="btn btn-danger" onclick="validar_eliminacion_servicio('{% url 'eliminar-servicio' servicio.id_servicio %}', '{{ servicio.nombre }}', '{{ servicio.rol }}', '{{ servicio.descripcion }}')">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Eliminar
                 </button> 
             </td>
             <td>
-                <a href="{% url 'serializers-servicios' servicio.id %}"><button class="btn btn-success">Ejecutar Api</button></a>
+                <a href="{% url 'serializers-servicios' servicio.id_servicio %}"><button class="btn btn-success">Ejecutar Api</button></a>
             </td>
         </tr>
         {% endfor %}

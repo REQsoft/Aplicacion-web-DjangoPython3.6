@@ -1,5 +1,5 @@
 from django.urls import path
-from .. views import views_02servicio
+from .. views import views_02servicio 
 
 urlpatterns = [
     path('servicios/crear', views_02servicio.SQLCreateView.as_view(), name='crear-servicio'),
