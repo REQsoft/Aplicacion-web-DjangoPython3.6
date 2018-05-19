@@ -1,21 +1,22 @@
-{% extends '00inicio/base.html' %}
+{% extends '01conexion/base.html' %}
 
 {% load static %}
 
 {% block content %}
-<div class="panel panel-info">
-  <div class="panel-body">
-    Lista de conexiones
-  </div>
-  <div class="panel-footer">
-    <table class="table">
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Lista de conexiones</h3>
+    </div>
+    <table class="table table-bordered table-hover">
         <thead>
             <tr>
                 <th>Nombre de conexion</th>
                 <th>Motor de base de datos</th>
+                <th>Usuario</th>
+                <th>IP Servidor</th>
+                <th>Puerto</th>
                 <th>Base de datos</th>
-                <th></th>
-                <th></th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>              
@@ -29,14 +30,22 @@
                         {{ conexion.motor }}
                     </td>
                     <td>
-                        {{ conexion.bd }}
+                        {{ conexion.usuario }}
+                    </td>
+                    <td>
+                        {{ conexion.ip_servidor }}
+                    </td>
+                    <td>
+                        {{ conexion.puerto }}
+                    </td>
+                    <td>
+                        {{ conexion.nombre_bd }}
                     </td>
                     <td>                        
                         <a type="button" class="btn btn-primary" href="{% url 'editar-conexion' conexion.id %}">
                             <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Editar
                         </a>
-                    </td>
-                    <td>
+                        
                         <button type="button" class="btn btn-danger" onclick="validar_eliminacion('{% url 'eliminar-conexion' conexion.id %}', '{{ conexion.nombre }}', '{{ conexion.motor }}', '{{ conexion.usuario }}')">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Eliminar
                         </button>                      
@@ -56,14 +65,44 @@
                         <button type="button" class="btn btn-primary close" data-dismiss="modal" aria-hidden="true">
                             <span class="glyphicon glyphicon-close" aria-hidden="true"></span> Cancelar
                         </button>
-                        <h3>Esta seguro de eliminar conexion</h3>
+                        <h3>Esta seguro de eliminar conexion</h3> 
                     </div>
                     <form method="post" action="" id="form_confirmacion">
                         {% csrf_token %}
                         <div class="modal-body">
-                            <label>Nombre de la conexion:</label><span id="spn_nombre"></span><br>
-                            <label>Motor de base de datos:</label><span id="spn_motor"></span><br>
-                            <label>Usuario:</label><span id="spn_usuario"></span><br>  
+                            <div class="box box-info">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Datos de la conexion</h3>
+                                </div>
+                                <div class="box-body">
+                                <table class="table table-bordered table-hover">
+                                    <tr>
+                                        <td>
+                                            <span class="input-group-addon label-info form-control">Nombre de la conexion</span>
+                                        </td>
+                                        <td>
+                                            <span class="input-group-addon label-default form-control" id="spn_nombre"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="input-group-addon label-info form-control">Motor de base de datos</span>
+                                        </td>
+                                        <td>
+                                            <span class="input-group-addon label-default form-control" id="spn_motor"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="input-group-addon label-info form-control">Usuario</span>
+                                        </td>
+                                        <td>
+                                            <span class="input-group-addon label-default form-control" id="spn_usuario"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger">
@@ -72,7 +111,6 @@
                         </div>
                     </form>
                 </div>
-            </div>
         </div>
     </div>
   </div>

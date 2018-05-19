@@ -1,40 +1,85 @@
-{% extends '00inicio/base.html' %}
+{% extends '01conexion/base.html' %}
 
 {% load static %}
 
-{% block page_name %}
-<h1> AGERGAR CONEXION</h1>
-{% endblock %}
-
-{% block page_description %}Crea una nueva conexión a una base de datos{% endblock %}
-
-{% block page_actions %}
-    <a type="button" class="btn btn-info">
-        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Mas informacion
-    </a>
-{% endblock %}
 
 {% block content %}
-<div class="col-sm-6 ">
-    <form method="post">
-        {% csrf_token %}
-            {{ form.as_p }}
-            <br>
-            <div id="selector_bd"></div>           
-            <div class="row">             
-                <div class="col-sm-6 ">
-                    <input type="text" id="url" value="{% url 'listar-bd' %}" hidden/>
-                    <a type="button" class="btn btn-primary" id="listar_bd">
-                        <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Listar bases de datos
-                    </a>
-                </div>
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Nueva conexion</h3>
+    </div>
+    <div class="box-body">
+            <div id"div_form">
+                <form method="post" id="form_conexion">
+                    {% csrf_token %}                  
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Motor de base de datos <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a onclick="generar_formulario_conexion('mysql')">MySQL</a></li>
+                                            <li><a onclick="generar_formulario_conexion('postgresql')">PostgreSQL</a></li>
+                                            <li><a onclick="generar_formulario_conexion('oracle')">Oracle</a></li>
+                                        </ul>
+                                    </div>
+                                    <input type="text" aria-describedby="sizing-addon1"  class="form-control" name="motor" id="motor">
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="input-group-addon label-info form-control">Puerto</span>
+                            </td>
+                            <td>
+                                <input type="number" aria-describedby="sizing-addon1"  class="form-control" name="puerto" id="puerto">
+                            </td>           
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="input-group-addon label-info form-control" id="sizing-addon1">IP Servidor</span>
+                            </td>
+                            <td>
+                                <input type="text" aria-describedby="sizing-addon1" class="form-control" name="ip_servidor" id="ip_servidor">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="input-group-addon label-info form-control" id="sizing-addon1">Usuario</span>
+                            </td>
+                            <td>
+                                <input type="text" aria-describedby="sizing-addon1" class="form-control" name="usuario" id="usuario">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="input-group-addon label-info form-control" id="sizing-addon1">Contraseña</span>
+                            </td>
+                            <td>
+                                <input type="text" aria-describedby="sizing-addon1" class="form-control" name="contrasena" id="contrasena">
+                            </td>
+                        </tr>                
+                    </table>
+                    
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <input type="hidden" id="url" value="{% url 'validar-conexion' %}"/>
+                                <button id="validar_conexion" class="btn btn-warning">
+                                    <span class="glyphicon glyphicon-check" aria-hidden="true"></span> Validar conexion
+                                </button>
+                            </td>                                                   
+                        </tr>               
+                    </table>
+                    <div id="div_validacion"></div> 
+                </form>
             </div>
-            <br>
-            <button type="submit" class="btn btn-success btn-lg">
-                <span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Guardar
-            </button>
-    </form>
+    </div>
 </div>
-  <script src="{% static "js/jquery-3.1.1.js" %}"></script>
-  <script src="{% static "js/codigo.js" %}"></script>
+<script src="{% static "js/jquery-3.1.1.js" %}"></script>
+<script src="{% static "js/codigo.js" %}"></script>
 {% endblock %}

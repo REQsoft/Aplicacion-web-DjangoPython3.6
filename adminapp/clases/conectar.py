@@ -4,15 +4,15 @@ import cx_Oracle
 
 class Conectar:
 
-    def __init__(self):
+    def __init__(self, usuario, contrasena, puerto, ip_servidor):
 
-        self.db_host = ''
-        self.db_user = '' 
-        self.db_pass = '' 
-        self.db_port = '' 
+        self.ip_servidor = ip_servidor
+        self.usuario = usuario 
+        self.contrasena =  contrasena
+        self.puerto = int(puerto) 
 
     # Para conectar a PostgreSQL
-    def conectarPostgres(self,usuario,pss,host,port):
+    def conectarPostgres(self):
         bds=[]
         try:    
             self.db_host = host
@@ -39,7 +39,7 @@ class Conectar:
         conn.close()
 
     # Para conectar a MySQL
-    def conectarMysql(self,usuario,pss,host,port):
+    def conectarMysql(self):
         bds=[]
         try:      
             self.db_host = host
@@ -67,7 +67,7 @@ class Conectar:
         return bds
   
     #Para conectar a Oracle
-    def conectarOracle(self,usuario,pss,host):
+    def conectarOracle(self):
         bds=[]
         try:
             self.db_user = usuario 
@@ -92,7 +92,7 @@ class Conectar:
           
         
     #Ejecutar servicios
-    def ejecutarServicios(self, usuario,pss,host,port,db,sql,motor):
+    def ejecutarServicios(self):
         estudiantes=[]
         try:      
             self.db_host = host
@@ -124,4 +124,43 @@ class Conectar:
             
             estudiantes=['error postgres----->'+ ' ' +self.db_user + ' '+ self.db_pass + ' '+ self.db_host + ' '+ self.db_port]
         return estudiantes
+
+    def validar_conexion_mysql(self):
+        config_mysql = {
+            'user': self.usuario,
+            'passwd': self.contrasena,
+            'host': self.ip_servidor,
+            'port': self.puerto,
+        }
+        print(config_mysql)
+        try:
+            conn = pymysql.connect(**config_mysql)
+            return True
+        except:
+            return False
+
+    def listar_db_mysql(self):
+        config_mysql = {
+            'user': self.usuario,
+            'passwd': self.contrasena,
+            'host': self.ip_servidor,
+            'port': self.puerto,
+        }
+        try:           
+            #conn = MySQLdb.connect(host=self.db_host,user=self.db_user,passwd=self.db_pass,port=int(self.db_port))
+            conn = pymysql.connect(**config_mysql)
+            #conn = mysql.connector.connect(host=self.db_host,user=self.db_user,passwd=self.db_pass,port=self.db_port)
+            cursor = conn.cursor() 
+            sql="show databases" 
+            cursor.execute(sql)
+            datos = [row[0] for row in cursor.fetchall()]
+            print(datos)
+            return datos
+                          
+        except Exception as inst:
+            return None
+
+        cursor.close ()
+        conn.close()
+        return bds
          

@@ -10,18 +10,32 @@ $(document).ready(function () {
         });
     });
 
-    $("#form_eliminar").submit(function(evt){
+    $("#validar_conexion").click(function(evt){
         evt.preventDefault();
         $.ajax({
-            url:$("#url").val(),
-            type: "GET",
+            url: $("#url").val(),
+            type: "POST",
+            data: $("#form_conexion").serialize(),
             success: function (datos) {
-                $("#modal_eliminiar").html(datos);
-                $("#mostrarmodal").modal("show");
+                $("#div_validacion").html(datos);
+                window.setTimeout(function() {
+                    $(".alert").fadeTo(1500, 0).slideUp(500, function(){
+                        $(this).remove(); 
+                    });
+                }, 1000);
             }
         });
     });
+
 });
+
+function generar_formulario_conexion(motor_db){
+    if(motor_db == "mysql"){
+        $("#motor").val("mysql");  
+        $("#puerto").val(3306);
+    }
+    
+}
 
 function validar_eliminacion(url, nombre, motor, usuario){
     $("#spn_nombre").html(nombre);
@@ -60,4 +74,24 @@ function validar_eliminacion_localizacion(url, descripcion, longitud, latitud){
     $("#spn_latitud").html(latitud);
     $("#form_confirmacion").attr('action',url);
     $("#mostrarmodal").modal("show");
+}
+
+function validar_conexion() {
+    $.ajax({
+        url: $("#url").val(),
+        type: "POST",
+        data: $("#form_conexion").serialize(),
+        success: function (datos) {
+            $("#div_validacion").html(datos);
+            window.setTimeout(function() {
+                $(".alert").fadeTo(1500, 0).slideUp(500, function(){
+                    $(this).remove(); 
+                });
+            }, 1000);
+        }
+    });
+}
+
+function mostrar_db(db){
+    $("#nombre_bd").val(db);
 }

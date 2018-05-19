@@ -1,0 +1,44 @@
+
+{% if object_list %}
+<div class="alert alert-success">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>La conexion es correcta! </strong>
+</div>
+<table class="table">
+<tr>
+<td>
+
+</td>
+    <div class="input-group">
+        <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Base de datos <span class="caret"></span></button>
+            <ul class="dropdown-menu">               
+                {% for db in object_list %}
+                    <li><a onclick="mostrar_db('{{ db }}')">{{ db }}</a></li>
+                {% endfor %}                   
+            </ul>
+        </div>
+        <input type="text" aria-describedby="sizing-addon1"  class="form-control" name="nombre_bd" id="nombre_bd">
+    </div>
+</tr> 
+<tr>
+    <td>
+        <span class="input-group-addon label-info form-control" id="sizing-addon1">Nombre de la conexion</span>
+    </td>
+    <td>
+        <input type="text" aria-describedby="sizing-addon1" class="form-control" name="nombre">
+    </td>
+    <td>
+        <button type="submit" class="btn btn-success">
+            <span class="glyphicon glyphicon-floppy-saved" aria-hidden="true"></span> Guardar
+        </button>
+    </td>
+</tr>
+</table>
+{% else %}
+<div class="alert alert-danger">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>ERROR! </strong>
+     No se ha establecido la conexion.
+</div>
+{% endif %}

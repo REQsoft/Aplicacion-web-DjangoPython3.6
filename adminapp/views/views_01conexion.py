@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 
 # Create your views here.
 
+def base_conexion(request):
+    return render(request, "01conexion/base.html")
 
 class ConexionCreateView(CreateView):
     model = Conexion
@@ -45,3 +47,26 @@ def listar_bd(request):
             request.POST['usuario'], request.POST['contrasena'], request.POST['ip'], request.POST['puerto'])
     context = {'object_list': bds}
     return render(request, '01conexion/listar_bd.html', context)
+
+
+def validar_conexion(request):
+    motor = request.POST['motor']
+    usuario = request.POST['usuario']
+    contrasena = request.POST['contrasena']
+    puerto = request.POST['puerto']
+    ip_servidor = request.POST['ip_servidor']
+
+    cnx = Conectar(usuario,contrasena,puerto,ip_servidor)
+    context = {}
+
+    if motor == 'mysql':
+        if cnx.validar_conexion_mysql():     
+            lista_db = cnx.listar_db_mysql() 
+            if lista_db is not None:
+                context =  {'object_list':lista_db}
+        return render(request, '01conexion/validar_conexion.html', context)
+    if motor == 'postgres':
+        pass
+    if motor == 'oracle':
+        pass
+    

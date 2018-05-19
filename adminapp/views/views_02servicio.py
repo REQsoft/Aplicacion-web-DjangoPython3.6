@@ -1,5 +1,4 @@
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
-from adminapp.forms import ConexionForm, ServicioForm, DirectorioForm, LocalizacionForm
 from adminapp.models import Conexion, Sql
 from adminapp.clases import conectar
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView, DetailView

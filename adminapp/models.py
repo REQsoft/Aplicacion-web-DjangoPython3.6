@@ -7,31 +7,18 @@ from django.urls import reverse
 
 class Conexion(models.Model):
     Motores = (
-        ('', (
-            ('postgres', 'Postgres'),
-
-        )
-        ),
-        ('', (
-            ('oracle', 'Oracle'),
-
-        )
-        ),
-        ('', (
-            ('mysql', 'Mysql'),
-
-        )
-        ),
-    )
+        ('', (('postgres', 'Postgres'),)),
+        ('', (('oracle', 'Oracle'),)),
+        ('', (('mysql', 'Mysql'),)),)
 
     # Atributos del modelo conexión
     nombre = models.CharField(max_length=50)
-    ip = models.CharField(max_length=16)
+    ip_servidor = models.CharField(max_length=16)
     puerto = models.IntegerField()
     motor = models.CharField(max_length=50, choices=Motores)
     usuario = models.CharField(max_length=50)
     contrasena = models.CharField(max_length=50, blank=True)
-    bd = models.CharField(max_length=50)
+    nombre_bd = models.CharField(max_length=50)
 
     def __str__(self):
         return self.nombre
