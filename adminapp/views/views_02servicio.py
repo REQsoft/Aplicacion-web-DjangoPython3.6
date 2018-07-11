@@ -46,7 +46,7 @@ class ServicioList(APIView):
         pass
 
     def get(self, request, id_servicio):
-        servicio = Sql.objects.get(id=id_servicio)
+        servicio = Sql.objects.get(id_servicio=id_servicio)
         if(id_servicio == 1):
             return ofertaAcademica(self, servicio)
         if(id_servicio == 2):
@@ -63,8 +63,9 @@ class ServicioList(APIView):
 # Crea la vista de estudiantes.
 def listaEstudiantes(self, servicio):
 
-    list = obj.ejecutarServicios(conexion.usuario, conexion.contrasena, conexion.ip, str(
-        conexion.puerto), conexion.bd, servicio.sql, conexion.motor)
+    conexion = Conexion.objects.get(nombre=servicio.conexion)
+    obj = conectar.Conectar(conexion.usuario, conexion.contrasena, conexion.puerto, conexion.ip_servidor)
+    list = obj.ejecutarServicios(servicio.sql, conexion.nombre_bd, conexion.motor)
 
     list1 = []
     list2 = []
@@ -74,14 +75,14 @@ def listaEstudiantes(self, servicio):
     list6 = []
     list7 = []
     list8 = []
-    print(list)
     for i in list:
+        print(i)
         list1.append(i[0])
-        list2.append(i[2])
-        list3.append(i[3])
-        list4.append(i[4])
-        list5.append(i[5])
-        list6.append(i[6])
+        list2.append(i[1])
+        list3.append(i[2])
+        list4.append(i[3])
+        list5.append(i[4])
+        list6.append(i[5])
 
     j = 0
     materias = []
@@ -103,8 +104,8 @@ def get_dic_from_two_lists(keys, values):
 def ofertaAcademica(self, servicio):
     conexion = Conexion.objects.get(nombre=servicio.conexion)
     obj = conectar.Conectar(conexion.usuario, conexion.contrasena, conexion.puerto, conexion.ip_servidor)
-    list = obj.ejecutarServicios(servicio.sql, servicio.db, conexion.motor)
-
+    list = obj.ejecutarServicios(servicio.sql, conexion.nombre_bd, conexion.motor)
+    print("oferta academica")
     list1 = []
     list2 = []
     list3 = []
@@ -120,7 +121,7 @@ def ofertaAcademica(self, servicio):
         list2.append(i[1])
         list3.append(i[2])
         list4.append(i[3])
-        list5.append(i[4])
+        list5.append(i[4]) 
         list6.append(i[5])
         list7.append(i[6])
         list8.append(i[7])
@@ -139,10 +140,11 @@ def ofertaAcademica(self, servicio):
 # Crea la vista de hoja de vida.
 
 
-def hojaVida(self, obj, servicio, conexion):
+def hojaVida(self, servicio):
 
-    list = obj.ejecutarServicios(conexion.usuario, conexion.contrasena, conexion.ip, str(
-        conexion.puerto), conexion.bd, servicio.sql, conexion.motor)
+    conexion = Conexion.objects.get(nombre=servicio.conexion)
+    obj = conectar.Conectar(conexion.usuario, conexion.contrasena, conexion.puerto, conexion.ip_servidor)
+    list = obj.ejecutarServicios(servicio.sql, conexion.nombre_bd, conexion.motor)
 
     list1 = []
     list2 = []
@@ -174,10 +176,11 @@ def hojaVida(self, obj, servicio, conexion):
 # Crea la vistaque permite consultar notas a los estudiantes.
 
 
-def consultaNotas(self, obj, servicio, conexion):
+def consultaNotas(self, servicio):
 
-    list = obj.ejecutarServicios(conexion.usuario, conexion.contrasena, conexion.ip, str(
-        conexion.puerto), conexion.bd, servicio.sql, conexion.motor)
+    conexion = Conexion.objects.get(nombre=servicio.conexion)
+    obj = conectar.Conectar(conexion.usuario, conexion.contrasena, conexion.puerto, conexion.ip_servidor)
+    list = obj.ejecutarServicios(servicio.sql, conexion.nombre_bd, conexion.motor)
 
     list1 = []
     list2 = []
@@ -194,14 +197,12 @@ def consultaNotas(self, obj, servicio, conexion):
         list3.append(i[2])
         list4.append(i[3])
         list5.append(i[4])
-        list6.append(i[5])
-        list7.append(i[6])
 
     j = 0
     materias = []
     while j < len(list1):
         materias.append({'codigo_estudiante': list1[j], 'codigo_materia': list2[j],
-                         'materia': list5[j], 'nota': list6[j], 'faltas': list7[j]})
+                         'materia': list3[j], 'nota': list4[j], 'faltas': list5[j]})
         j += 1
 
     serializer = json.dumps(materias)
@@ -209,10 +210,11 @@ def consultaNotas(self, obj, servicio, conexion):
 
 
 # Crea la vista que permite consultar materias.
-def consultaMaterias(self, obj, servicio, conexion):
+def consultaMaterias(self, servicio):
 
-    list = obj.ejecutarServicios(conexion.usuario, conexion.contrasena, conexion.ip, str(
-        conexion.puerto), conexion.bd, servicio.sql, conexion.motor)
+    conexion = Conexion.objects.get(nombre=servicio.conexion)
+    obj = conectar.Conectar(conexion.usuario, conexion.contrasena, conexion.puerto, conexion.ip_servidor)
+    list = obj.ejecutarServicios(servicio.sql, conexion.nombre_bd, conexion.motor)
 
     list1 = []
     list2 = []

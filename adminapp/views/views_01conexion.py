@@ -66,7 +66,11 @@ def validar_conexion(request):
                 context =  {'object_list':lista_db}
         return render(request, '01conexion/validar_conexion.html', context)
     if motor == 'postgres':
-        pass
+        if cnx.conectarPostgres() is not None:     
+            lista_db = cnx.conectarPostgres() 
+            if lista_db is not None:
+                context = {'object_list':lista_db}
+        return render(request, '01conexion/validar_conexion.html', context)
     if motor == 'oracle':
         pass
     

@@ -10,29 +10,25 @@ class Conectar:
         self.usuario = usuario 
         self.contrasena =  contrasena
         self.puerto = int(puerto) 
+        print(self.ip_servidor+" "+self.usuario+" "+self.contrasena+" "+str(self.puerto))
 
     # Para conectar a PostgreSQL
     def conectarPostgres(self):
         bds=[]
-        try:    
-            self.db_host = host
-            self.db_user = usuario 
-            self.db_pass = pss 
-            self.db_port = port  
-      
-            conn = psycopg2.connect(user=self.db_user,password=self.db_pass,host=self.db_host,port=self.db_port)
-      
+        try:     
+            
+            conn = psycopg2.connect(user=self.usuario,password=self.contrasena,host=self.ip_servidor,port=self.puerto)
             cursor = conn.cursor() 
 
-            sql="SELECT datname FROM pg_database PD,pg_user PU WHERE usename= '%s' AND PD.datdba=PU.usesysid" %(usuario)
+            sql="SELECT datname FROM pg_database PD,pg_user PU WHERE usename= '%s' AND PD.datdba=PU.usesysid" %(self.usuario)
             cursor.execute(sql)
             rows = cursor.fetchall()
             
             for row in rows:
                 bds.append(row[0])
         except:
-            bds=['error postgres'+ ' ' +self.db_user + ' '+ self.db_pass + ' '+ self.db_host + ' '+ self.db_port]
-            #bds=['error postgres']
+            
+            return False
 
         return bds
         cursor.close ()
@@ -94,19 +90,23 @@ class Conectar:
     #Ejecutar servicios
     def ejecutarServicios(self, sql, db, motor):
         estudiantes=[]
-        try:      
+        
+        try:   
             db_db = db
-            db_sql = sql   
-            if(motor=="postgres"):
-                conn = psycopg2.connect(database=self.db_db,user=self.db_user,password=self.db_pass,host=self.db_host,port=self.db_port)
-            elif(motor=="mysql"):
-                conn = pymysql.connect(host=self.ip_servidor,user=self.usuario,passwd=self.contrasena,port=self.puerto,db=self.db_db)
-            elif(motor=="oracle"):                     
+            db_sql = sql 
+            if motor=="postgres":
+                conn = psycopg2.connect(database=db,user=self.usuario,password=self.contrasena,host=self.ip_servidor,port=self.puerto)
+            elif motor=="mysql":
+                print("************************************1")
+                print("None")
+                print("************************************2")
+                conn = pymysql.connect(host=self.ip_servidor,user=self.usuario,passwd=self.contrasena,port=self.puerto,db=db)
+            elif motor=="oracle":                     
                 s=str(self.db_user+"/"+self.db_pass+"@"+self.db_host)
                 conn=cx_Oracle.connect(s)
                 
             cursor = conn.cursor() 
-            sql=self.db_sql
+            sql=db_sql
 
             cursor.execute(sql)
             rows = cursor.fetchall()
@@ -116,7 +116,7 @@ class Conectar:
             
         except Exception as inst:
             
-            estudiantes=['error postgres----->'+ ' ' +self.db_user + ' '+ self.db_pass + ' '+ self.db_host + ' '+ self.db_port]
+            estudiantes=['error postgres----->'+ ' ' +self.usuario + ' '+ self.contrasena + ' '+ self.ip_servidor]
         return estudiantes
 
     def validar_conexion_mysql(self):
